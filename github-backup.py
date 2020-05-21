@@ -47,17 +47,15 @@ def main():
         os.mkdir(args.backupdir)
 
     # Get all repos
-    filters = {
-        'affiliation': ','.join(args.affiliation),
-        'visibility': args.visibility
-    }
 
     if args.organization:
-        org = gh.get_org(args.org)
-        repos = org.get_repos(**filters)
+        print("found org...")
+        org = gh.get_organization(args.organization)
+        print(org)
+        repos = org.get_repos()
     else:
         user = gh.get_user()
-        repos = user.get_repos(**filters)
+        repos = user.get_repos()
 
     for repo in repos:
         if args.skip_forks and repo.fork:
@@ -72,14 +70,12 @@ def init_parser():
 
     parser.add_argument("login_or_token", help="A Github username or token")
     parser.add_argument("backupdir", help="The folder where you want your backups to go")
-    parser.add_argument("-v", "--visibility", help="Filter repos by their visibility", choices=['all', 'public', 'private'], default='all')
-    parser.add_argument("-a", "--affiliation", help="Filter repos by their affiliation", action='append', type=str, default=['owner'], choices=['owner', 'collaborator', 'organization_member'])
     parser.add_argument("-d", "--debug", help="Show debug info", action="store_true")
     parser.add_argument("-q", "--quiet", help="Only show errors", action="store_true")
     parser.add_argument("-m", "--mirror", help="Create a bare mirror", action="store_true")
     parser.add_argument("-f", "--skip-forks", help="Skip forks", action="store_true")
     parser.add_argument("-g", "--git", nargs="+", help="Pass extra arguments to git", type=list, default=[], metavar="ARGS")
-    parser.add_argument("-t", "--type", help="Select the protocol for cloning", choices=['git', 'http', 'ssh'], default='ssh')
+    parser.add_argument("-t", "--type", help="Select the protocol for cloning", choices=['git', 'http', 'ssh'], default='http')
     parser.add_argument("-s", "--suffix", help="Add suffix to repository directory names", default="")
     parser.add_argument("-p", "--password", help="Authenticate with Github API")
     parser.add_argument("-P", "--prefix", help="Add prefix to repository directory names", default="")
