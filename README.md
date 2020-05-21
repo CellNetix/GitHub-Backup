@@ -34,10 +34,8 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -v {all,public,private}, --visibility {all,public,private}
-                        Filter repos by their visibility
-  -a {owner,collaborator,organization_member}, --affiliation {owner,collaborator,organization_member}
-                        Filter repos by their affiliation
+  -v {all,public,private}
+  -a {owner,collaborator,organization_member}
   -d, --debug           Show debug info
   -q, --quiet           Only show errors
   -m, --mirror          Create a bare mirror
